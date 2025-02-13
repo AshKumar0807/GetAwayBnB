@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetAwayBnB - Explore Amazing Stays Across India</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            color: white;
+        }
+
+        .location-card {
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 25px;
+            padding: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold fs-4" href="{{url_for('main_page')}}">GetAwayBnB</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Become a Host</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-globe"></i> English (IN)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger ms-2" href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger ms-2" href="{{url_for('login')}}">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Discover Unique Stays Across India</h1>
+            <div class="search-bar">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-0"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control border-0" placeholder="Where are you going?">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-0"><i class="fas fa-calendar"></i></span>
+                            <input type="text" class="form-control border-0" placeholder="Check in">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-0"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control border-0" placeholder="Guests">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger w-100">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="mb-4">Popular Destinations</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/300/200" class="card-img-top" alt="Goa">
+                        <div class="card-body">
+                            <h5 class="card-title">Goa</h5>
+                            <p class="card-text text-muted">Beach vibes & nightlife</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/300/200" class="card-img-top" alt="Jaipur">
+                        <div class="card-body">
+                            <h5 class="card-title">Jaipur</h5>
+                            <p class="card-text text-muted">Royal heritage & culture</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/300/200" class="card-img-top" alt="Kerala">
+                        <div class="card-body">
+                            <h5 class="card-title">Kerala</h5>
+                            <p class="card-text text-muted">Backwaters & houseboats</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/300/200" class="card-img-top" alt="Manali">
+                        <div class="card-body">
+                            <h5 class="card-title">Manali</h5>
+                            <p class="card-text text-muted">Mountain retreats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Types -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="mb-4">Types of Stays</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/400/300" class="card-img-top" alt="Heritage Haveli">
+                        <div class="card-body">
+                            <h5 class="card-title">Heritage Havelis</h5>
+                            <p class="card-text">Experience royal living in traditional mansions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/400/300" class="card-img-top" alt="Treehouse">
+                        <div class="card-body">
+                            <h5 class="card-title">Treehouses</h5>
+                            <p class="card-text">Unique stays amidst nature</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card location-card border-0 shadow-sm">
+                        <img src="/api/placeholder/400/300" class="card-img-top" alt="Beachfront">
+                        <div class="card-body">
+                            <h5 class="card-title">Beachfront Villas</h5>
+                            <p class="card-text">Luxury stays with ocean views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Safety Information</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Cancellation Options</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Community</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Blog</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Forum</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Events</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Hosting</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">List Your Property</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Host Resources</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Community Center</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>About</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2025 IndiaStays. All rights reserved</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
