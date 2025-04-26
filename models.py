@@ -10,7 +10,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(20))
-    role = db.Column(db.String(20), nullable=False)
+    isGuest = db.Column(db.Boolean, default=True)  # Default role as Guest
+    isHost = db.Column(db.Boolean, default=False)  # Can be enabled if user becomes a Host
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
     def get_id(self):
@@ -28,6 +29,15 @@ class Property(db.Model):
     price = db.Column(db.Numeric(10, 2), nullable=False)
     maxGuests = db.Column(db.Integer, nullable=False)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
+    isAvailable = db.Column(db.Boolean, default=True)
+
+class PropertyImage(db.Model):
+    imageID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    propertyID = db.Column(db.Integer, db.ForeignKey('property.propertyID'), nullable=False)
+    imageUrl = db.Column(db.String(255), nullable=False)  # URL or local file path
+    uploadedAt = db.Column(db.DateTime, default=datetime.utcnow)
+
+    property = db.relationship('Property', backref=db.backref('images', lazy=True))
 
 class Booking(db.Model):
     bookingID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -36,8 +46,11 @@ class Booking(db.Model):
     checkinDate = db.Column(db.Date, nullable=False)
     checkoutDate = db.Column(db.Date, nullable=False)
     totalPrice = db.Column(db.Numeric(10, 2), nullable=False)
-    status = db.Column(db.String(20), nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='pending')  # Default status is 'pending'
+    isBooked = db.Column(db.Boolean, default=False)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
+    isCanceled = db.Column(db.Boolean, default=False)
+
 
 class Payment(db.Model):
     paymentID = db.Column(db.Integer, primary_key=True, autoincrement=True)

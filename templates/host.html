@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Host - GetAwayBnB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            /* White */
+            --secondary-bg: #f7f7f7;
+            /* Light Gray */
+            --text-primary: #333333;
+            /* Dark Gray */
+            --accent-color: #0056D2;
+            /* Dark Blue */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+    <!-- Navbar -->
+    <nav class="bg-[var(--primary-bg)] shadow-md fixed w-full z-10">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="{{ url_for('index') }}" class="text-2xl font-bold text-[var(--accent-color)]">GetAwayBnB</a>
+            <div class="flex space-x-4">
+                <a href="{{ url_for('login') }}"
+                    class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:shadow-md">Login</a>
+                <a href="{{ url_for('signup') }}"
+                    class="px-4 py-2 bg-[var(--accent-color)] text-white rounded-full hover:shadow-md">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="h-[350px] bg-[var(--secondary-bg)] flex items-center justify-center text-center">
+        <div>
+            <h1 class="text-4xl font-extrabold mb-4">Become a Host</h1>
+            <p class="text-lg text-gray-600">Share your space or experiences and start earning today!</p>
+        </div>
+    </section>
+
+    <!-- Become a Host Confirmation -->
+    <section class="py-16">
+        <div class="container mx-auto max-w-2xl bg-[var(--secondary-bg)] rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Ready to Become a Host?</h2>
+            <p class="text-lg text-gray-600 text-center mb-8">
+                By becoming a host, you can list your properties or share unique experiences with travelers. You'll be
+                able to manage your properties, bookings, and earn money.
+            </p>
+
+            <form action="{{ url_for('become_host') }}" method="POST" class="space-y-6">
+                <!-- Confirmation Message -->
+                <p class="text-center text-gray-700">
+                    Click the button below to confirm and start your journey as a host.
+                </p>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <button type="submit"
+                        class="bg-[var(--accent-color)] text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg">
+                        Confirm & Become a Host
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--primary-bg)] text-[var(--text-primary)] py-12">
+        <div class="container mx-auto text-center">
+            <p class="text-sm text-gray-600">© 2025 GetAwayBnB. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

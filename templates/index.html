@@ -2,100 +2,68 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GetAwayBnB - Explore Amazing Stays Across India</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GetAwayBnB - Welcome</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --primary-bg: #1a1a1a;
-            /* Black */
-            --secondary-bg: #f5f5dc;
-            /* Beige */
-            --text-light: #ffffff;
-            /* White */
-            --text-dark: #1a1a1a;
-            /* Black */
+            --primary-bg: #ffffff;
+            --secondary-bg: #f7f7f7;
+            --text-primary: #1f2937;
+            --accent-color: #0056D2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
+                url('/api/placeholder/1920/800');
+            background-size: cover;
+            background-position: center;
         }
     </style>
 </head>
 
-<body class="bg-[var(--primary-bg)] text-[var(--text-light)]">
+<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
 
-    <!-- Navbar -->
-    <nav class="bg-[var(--secondary-bg)] text-[var(--text-dark)] shadow-md">
-        <div class="container mx-auto flex justify-between items-center p-4">
-            <a href="{{ url_for('index') }}" class="text-xl font-bold text-red-600">GetAwayBnB</a>
-            <div class="flex space-x-4">
-                <a href="#" class="px-4 py-2 bg-red-600 text-white rounded-lg">Become a Host</a>
-                <a href="{{ url_for('signup') }}" class="px-4 py-2 bg-red-600 text-white rounded-lg">Sign Up</a>
-                <a href="{{ url_for('login') }}" class="px-4 py-2 bg-red-600 text-white rounded-lg">Login</a>
+    <!-- Landing Section -->
+    <section class="gradient-bg min-h-screen flex flex-col justify-between relative">
+
+
+        <!-- Main Content -->
+        <div class="flex flex-col items-center justify-center text-center text-white px-6 py-12">
+            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">Welcome to GetAwayBnB</h1>
+            <p class="text-lg md:text-xl max-w-2xl mb-8 text-gray-200">
+                Discover unique stays across India. From royal heritage homes to cozy beachside retreats — adventure,
+                comfort, and culture await.
+            </p>
+
+            <div class="w-full max-w-3xl">
+                <img src="/static/b.png" alt="Explore Stays"
+                    class="rounded-2xl shadow-2xl border border-white mb-6 w-full" />
+                <p class="text-sm text-gray-300">Explore heritage havelis, treehouses, beachfront villas and more.</p>
+            </div>
+
+            <div class="flex space-x-4 mt-10">
+                <a href="{{ url_for('signup') }}"
+                    class="px-6 py-3 bg-[var(--accent-color)] text-white rounded-full font-bold hover:scale-105 hover:bg-blue-700 transition transform duration-200">
+                    Sign Up
+                </a>
+                <a href="{{ url_for('login') }}"
+                    class="px-6 py-3 bg-white text-gray-800 rounded-full font-bold hover:scale-105 hover:bg-gray-100 transition transform duration-200">
+                    Login
+                </a>
             </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="relative h-[500px] flex items-center justify-center text-center">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div class="relative z-10">
-            <h1 class="text-4xl font-bold mb-4">Discover Unique Stays Across India</h1>
-            <div class="bg-white text-black rounded-lg p-4 flex space-x-4 shadow-lg">
-                <input type="text" placeholder="Where are you going?" class="p-2 rounded-md w-60">
-                <input type="date" class="p-2 rounded-md w-40">
-                <input type="number" placeholder="Guests" class="p-2 rounded-md w-20">
-                <button class="bg-red-600 text-white px-4 py-2 rounded-md">Search</button>
-            </div>
-        </div>
+        <!-- Footer -->
+        <footer class="text-center py-4 text-gray-300 bg-black/40 backdrop-blur-sm">
+            <p class="text-sm">© 2025 GetAwayBnB. All rights reserved.</p>
+        </footer>
     </section>
-
-    <!-- Popular Destinations -->
-    <section class="py-10">
-        <div class="container mx-auto">
-            <h2 class="text-2xl font-semibold text-center mb-6">Popular Destinations</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                {% for city in ["Goa", "Jaipur", "Kerala", "Manali"] %}
-                <div class="bg-[var(--secondary-bg)] text-[var(--text-dark)] rounded-lg shadow-lg overflow-hidden">
-                    <img src="/api/placeholder/300/200" alt="{{ city }}" class="w-full">
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold">{{ city }}</h3>
-                        <p class="text-sm">Explore amazing stays in {{ city }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Types -->
-    <section class="py-10 bg-[var(--secondary-bg)] text-[var(--text-dark)]">
-        <div class="container mx-auto">
-            <h2 class="text-2xl font-semibold text-center mb-6">Types of Stays</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {% for type in [("Heritage Havelis", "Royal mansions"), ("Treehouses", "Nature retreats"), ("Beachfront
-                Villas", "Oceanfront luxury")] %}
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img src="/api/placeholder/400/300" alt="{{ type[0] }}" class="w-full">
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold">{{ type[0] }}</h3>
-                        <p class="text-sm">{{ type[1] }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[var(--primary-bg)] text-[var(--text-light)] py-8">
-        <div class="container mx-auto text-center">
-            <p>© 2025 GetAwayBnB. All rights reserved.</p>
-            <div class="flex justify-center space-x-4 mt-4">
-                <a href="#" class="text-white hover:text-red-600"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="text-white hover:text-red-600"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-white hover:text-red-600"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
 
 </body>
 

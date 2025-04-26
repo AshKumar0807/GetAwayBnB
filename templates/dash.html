@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetAwayBnB - Explore Amazing Stays Across India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            /* White */
+            --secondary-bg: #f7f7f7;
+            /* Light Gray */
+            --text-primary: #333333;
+            /* Dark Gray */
+            --accent-color: #0056D2;
+            /* Dark Blue */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1920/500');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <!-- Hero Section -->
+    <section class="gradient-bg h-[500px] flex items-center justify-center text-center text-white relative">
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div class="relative z-10 w-full max-w-4xl">
+            <h1 class="text-5xl font-extrabold mb-6 leading-tight">Discover Unique Stays Across India</h1>
+            <div class="bg-white text-black rounded-full p-4 flex items-center space-x-2 shadow-lg">
+                <input type="text" placeholder="Where are you going?"
+                    class="p-3 rounded-l-full w-full border-none focus:outline-none">
+                <input type="date" class="p-3 w-40 border-none focus:outline-none">
+                <input type="number" placeholder="Guests" class="p-3 w-24 border-none focus:outline-none">
+                <button
+                    class="bg-[var(--accent-color)] text-white px-6 py-3 rounded-full hover:shadow-md">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="py-16">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-10">Popular Destinations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                {% for property in properties %}
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <!-- Property Image -->
+                    <a href="{{ url_for('property_details', property_id=property.propertyID) }}">
+                        <img src="{{ property.images[0].imageUrl if property.images else '/static/default_property.jpg' }}"
+                            alt="Property Image" class="w-full h-40 object-cover">
+                    </a>
+
+                    <!-- Property Details -->
+                    <div class="p-4">
+                        <a href="{{ url_for('property_details', property_id=property.propertyID) }}">
+                            <h2 class="text-xl font-bold text-[var(--accent-color)] truncate">{{ property.title }}</h2>
+                        </a>
+                        <p class="text-sm text-gray-600 truncate">{{ property.city }}, {{ property.state }}</p>
+                        <p class="text-sm text-gray-600 truncate">₹{{ property.price }} / night</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="col-span-full text-center text-gray-600">No properties available at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Types of Stays -->
+    <!-- <section class="py-16 bg-[var(--secondary-bg)]">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-10">Types of Stays</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for type in [("Heritage Havelis", "Royal mansions"), ("Treehouses", "Nature retreats"), ("Beachfront
+                Villas", "Oceanfront luxury")] %}
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
+                    <img src="/api/placeholder/400/300" alt="{{ type[0] }}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold">{{ type[0] }}</h3>
+                        <p class="text-sm text-gray-600 mt-2">{{ type[1] }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

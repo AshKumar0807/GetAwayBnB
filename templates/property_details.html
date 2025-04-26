@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - GetAwayBnB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f7f7f7;
+            --text-primary: #333333;
+            --accent-color: #0056D2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+    <!-- Back Button -->
+    <div class="container mx-auto pt-4 flex items-center">
+        <a href="{{ url_for('explore_properties') }}"
+            class="text-[var(--accent-color)] hover:underline flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back
+        </a>
+    </div>
+
+    <!-- Property Details -->
+    <section class="py-8 mt-4">
+        <div class="container mx-auto flex flex-wrap">
+            <!-- Left Side: Images and Description -->
+            <div class="w-full md:w-2/3 pr-4">
+                <!-- Property Images -->
+                <div class="mb-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {% for image in images %}
+                        <img src="{{ image.imageUrl }}" alt="Property Image"
+                            class="w-full h-64 object-cover rounded-lg">
+                        {% else %}
+                        <img src="/static/default_property.jpg" alt="Default Image"
+                            class="w-full h-64 object-cover rounded-lg">
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Property Info -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-[var(--accent-color)]">{{ property.title }}</h1>
+                    <p class="text-lg text-gray-600">{{ property.city }}, {{ property.state }}</p>
+                    <p class="text-lg text-gray-600">₹{{ property.price }} / night</p>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold mb-2">Description</h2>
+                    <p class="text-gray-700 whitespace-pre-line">{{ property.description }}</p>
+                </div>
+            </div>
+
+            <!-- Right Side: Booking Form -->
+            <div class="w-full md:w-1/3 flex justify-center items-start">
+                <div class="sticky top-20 bg-white p-6 shadow-md rounded-lg">
+                    <h2 class="text-2xl font-bold mb-4">Book Your Stay</h2>
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label for="checkinDate" class="block text-sm font-medium text-gray-700">Check-in
+                                Date</label>
+                            <input type="date" id="checkinDate" name="checkinDate"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label for="checkoutDate" class="block text-sm font-medium text-gray-700">Check-out
+                                Date</label>
+                            <input type="date" id="checkoutDate" name="checkoutDate"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label for="totalGuests" class="block text-sm font-medium text-gray-700">Number of
+                                Guests</label>
+                            <input type="number" id="totalGuests" name="totalGuests" min="1"
+                                max="{{ property.maxGuests }}"
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-[var(--accent-color)] text-white font-bold py-2 rounded-lg hover:shadow-lg">Book
+                            Now</button>
+                    </form>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} bg-red-500" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--primary-bg)] text-[var(--text-primary)] py-12">
+        <div class="container mx-auto text-center">
+            <p class="text-sm text-gray-600">© 2025 GetAwayBnB. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

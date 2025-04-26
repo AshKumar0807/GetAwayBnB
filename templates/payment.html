@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - GetAwayBnB</title>
+</head>
+
+<body>
+    <h1>Payment</h1>
+    <p>Booking ID: {{ booking.bookingID }}</p>
+    <p>Total Amount: ₹{{ booking.totalPrice }}</p>
+
+    <form method="POST">
+        <label for="paymentMethod">Payment Method:</label>
+        <select name="paymentMethod" required>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="UPI">UPI</option>
+            <option value="Net Banking">Net Banking</option>
+        </select>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</body>
+
+</html>

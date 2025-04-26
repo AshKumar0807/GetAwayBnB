@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Properties - GetAwayBnB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f7f7f7;
+            --text-primary: #333333;
+            --accent-color: #0056D2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+
+    <!-- Navbar -->
+    {%include 'navbar.html'%}
+
+    <!-- Page Header -->
+    <section class="h-[200px] bg-[var(--secondary-bg)] flex items-center justify-center text-center pt-16">
+        <div>
+            <h1 class="text-4xl font-extrabold mb-4">Explore Stays</h1>
+            <p class="text-lg text-gray-600">Find your perfect getaway from our collection of Stays</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <section class="py-5 bg-white shadow-sm">
+        <div class="container mx-auto">
+            <form method="GET" action="{{ url_for('explore_properties') }}"
+                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- City Filter -->
+                <input type="text" name="city" placeholder="City" class="border rounded-lg px-4 py-2">
+
+                <!-- State Filter -->
+                <input type="text" name="state" placeholder="State" class="border rounded-lg px-4 py-2">
+
+                <!-- Price Range Filter -->
+                <div class="flex items-center">
+                    <input type="number" name="min_price" placeholder="Min Price"
+                        class="border rounded-lg px-4 py-2 w-1/2 mr-2">
+                    <input type="number" name="max_price" placeholder="Max Price"
+                        class="border rounded-lg px-4 py-2 w-1/2">
+                </div>
+
+                <!-- Max Guests Filter -->
+                <input type="number" name="max_guests" placeholder="Max Guests" class="border rounded-lg px-4 py-2">
+
+                <!-- Submit Button -->
+                <button type="submit" class="bg-[var(--accent-color)] text-white rounded-lg px-4 py-2">Filter</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section class="py-10">
+        <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for property in properties %}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <!-- Property Image -->
+                <a href="{{ url_for('property_details', property_id=property.propertyID) }}">
+                    <img src="{{ property.images[0].imageUrl if property.images else '/static/default_property.jpg' }}"
+                        alt="Property Image" class="w-full h-40 object-cover">
+                </a>
+
+                <!-- Property Details -->
+                <div class="p-4">
+                    <a href="{{ url_for('property_details', property_id=property.propertyID) }}">
+                        <h2 class="text-xl font-bold text-[var(--accent-color)] truncate">{{ property.title }}</h2>
+                    </a>
+                    <p class="text-sm text-gray-600 truncate">{{ property.city }}, {{ property.state }}</p>
+                    <p class="text-sm text-gray-600 truncate">₹{{ property.price }} / night</p>
+                </div>
+            </div>
+            {% else %}
+            <p class="col-span-full text-center text-gray-600">No properties are currently available. Please check back
+                later.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[var(--primary-bg)] text-[var(--text-primary)] py-12">
+        <div class="container mx-auto text-center">
+            <p class="text-sm text-gray-600">© 2025 GetAwayBnB. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

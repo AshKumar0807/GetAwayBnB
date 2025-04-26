@@ -1,0 +1,22 @@
+<nav class="bg-[var(--primary-bg)] shadow-md fixed w-full z-10">
+    <div class="container mx-auto flex justify-between items-center p-4">
+        <a href="{{ url_for('dashboard') }}" class="text-2xl font-bold text-[var(--accent-color)]">GetAwayBnB</a>
+        <div class="flex space-x-4">
+            {% if not current_user.isHost %}
+            <a href="{{ url_for('become_host') }}"
+                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">Become a
+                Host</a>
+            {% endif %}
+
+            <a href="{{ url_for('view_property') }}"
+                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">View
+                Properties</a>
+            <a href="{{ url_for('explore_properties') }}"
+                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">Explore
+                Places</a>
+            <a href="#" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:shadow-md">Account</a>
+            <a href="{{ url_for('logout') }}"
+                class="px-4 py-2 bg-[var(--accent-color)] text-white rounded-full hover:shadow-md">Logout</a>
+        </div>
+    </div>
+</nav>
