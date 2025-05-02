@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy 
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from models import db, User, Property, PropertyImage, Booking, Payment
+from models import db, User, Property, PropertyImage, Booking, Payment , HostExperience, ExperienceBooking
 from sqlalchemy import and_
 from datetime import datetime, timedelta
 
@@ -314,6 +314,126 @@ def view_property():
     properties = Property.query.all()
     return render_template('view_properties.html', properties=properties)
 
+@app.route('/host_experience', methods=['GET', 'POST'])
+@login_required
+def host_experience():
+    # Ensure the user has host privileges
+    if not current_user.isHost:
+        current_user.isHost = True
+        db.session.commit()
+
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        price = request.form['price']
+        location = request.form['location']
+        max_participants = request.form['maxParticipants']
+
+        # Create a new HostExperience
+        new_experience = HostExperience(
+            hostID=current_user.userID,
+            title=title,
+            description=description,
+            price=price,
+            location=location,
+            maxParticipants=max_participants
+        )
+        db.session.add(new_experience)
+        db.session.commit()
+
+        flash("Experience hosted successfully!", "success")
+        return redirect(url_for('view_host_experiences'))
+
+    return render_template('host_experience.html')
+
+
+@app.route('/explore_experiences', methods=['GET'])
+def explore_experiences():
+    # Fetch all experiences
+    experiences = HostExperience.query.all()
+    return render_template('explore_experiences.html', experiences=experiences)
+
+
+@app.route('/book_experience/<int:experience_id>', methods=['GET', 'POST'])
+@login_required
+def book_experience(experience_id):
+    # Fetch the experience by ID
+    experience = HostExperience.query.get_or_404(experience_id)
+
+    if request.method == 'POST':
+        date_str = request.form['date']
+
+        # Convert string date to Python date object
+        try:
+            date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            flash("Invalid date format. Please select a valid date.", "danger")
+            return redirect(url_for('book_experience', experience_id=experience_id))
+
+        # Check if the user has already booked on the same date
+        existing_booking = ExperienceBooking.query.filter_by(
+            experienceID=experience_id,
+            guestID=current_user.userID,
+            date=date
+        ).first()
+
+        if existing_booking:
+            flash("You have already booked this experience on the selected date.", "info")
+            return redirect(url_for('explore_experiences'))
+
+        # Create a new booking
+        new_booking = ExperienceBooking(
+            experienceID=experience_id,
+            guestID=current_user.userID,
+            date=date,
+            status='pending'
+        )
+        db.session.add(new_booking)
+        db.session.commit()
+
+        flash("Experience booking request submitted successfully!", "success")
+        return redirect(url_for('explore_experiences'))
+
+    return render_template('book_experience.html', experience=experience)
+
+
+@app.route('/view_host_experiences', methods=['GET'])
+@login_required
+def view_host_experiences():
+    # Ensure the user has host privileges
+    if not current_user.isHost:
+        current_user.isHost = True
+        db.session.commit()
+
+    # Fetch the experiences hosted by the current user
+    experiences = HostExperience.query.filter_by(hostID=current_user.userID).all()
+    return render_template('view_host_experiences.html', experiences=experiences)
+
+@app.route('/edit_experience/<int:experience_id>', methods=['GET', 'POST'])
+@login_required
+def edit_experience(experience_id):
+    # Use filter_by for the primary key field 'experienceID'
+    experience = HostExperience.query.filter_by(experienceID=experience_id).first_or_404()
+
+    # Ensure the current user is the host
+    if experience.hostID != current_user.userID:
+        flash("You don't have permission to edit this experience.", "danger")
+        return redirect(url_for('view_host_experiences'))
+
+    if request.method == 'POST':
+        # Update the experience details from the form data
+        experience.title = request.form['title']
+        experience.description = request.form['description']
+        experience.location = request.form['location']
+        experience.price = request.form['price']
+        experience.maxParticipants = request.form['maxParticipants']
+
+        # Commit the changes to the database
+        db.session.commit()
+        flash("Experience updated successfully!", "success")
+        return redirect(url_for('view_host_experiences'))
+
+    return render_template('edit_experience.html', experience=experience)
 
 # @app.route('/property/<int:property_id>', methods=['GET'])
 # def property_details(property_id):

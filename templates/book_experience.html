@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Experience</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <header class="text-center py-6 bg-blue-600 text-white">
+        <h1 class="text-4xl font-bold">Book Experience</h1>
+    </header>
+
+    <main class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-center text-blue-600 mb-4">{{ experience.title }}</h2>
+        <p class="text-center text-gray-600 mb-2">{{ experience.description }}</p>
+        <p class="text-center text-gray-600 mb-2"><strong>Location:</strong> {{ experience.location }}</p>
+        <p class="text-center text-gray-600 mb-2"><strong>Price per Participant:</strong> ₨ {{ experience.price }}</p>
+        <p class="text-center text-gray-600 mb-6"><strong>Maximum Participants:</strong> {{ experience.maxParticipants
+            }}</p>
+
+        <form method="POST" action="{{ url_for('book_experience', experience_id=experience.experienceID) }}"
+            class="space-y-4">
+            <div>
+                <label for="date" class="block text-gray-700 font-medium mb-2">Date:</label>
+                <input type="date" id="date" name="date" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Book Now
+                </button>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
