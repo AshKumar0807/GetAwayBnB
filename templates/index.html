@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GetAwayBnB - Welcome</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollreveal/4.0.9/scrollreveal.min.js" defer></script>
     <style>
         :root {
             --primary-bg: #ffffff;
@@ -16,54 +19,172 @@
 
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
 
         .gradient-bg {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
-                url('/api/placeholder/1920/800');
+                url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080');
             background-size: cover;
             background-position: center;
+        }
+
+        .interactive-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .interactive-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-hover:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 86, 210, 0.5);
+        }
+
+        .vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
     </style>
 </head>
 
-<body class="bg-[var(--primary-bg)] text-[var(--text-primary)]">
+<body id="vanta-bg" class="bg-[var(--primary-bg)] text-[var(--text-primary)] relative">
 
     <!-- Landing Section -->
-    <section class="gradient-bg min-h-screen flex flex-col justify-between relative">
-
-
-        <!-- Main Content -->
-        <div class="flex flex-col items-center justify-center text-center text-white px-6 py-12">
-            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">Welcome to GetAwayBnB</h1>
-            <p class="text-lg md:text-xl max-w-2xl mb-8 text-gray-200">
-                Discover unique stays across India. From royal heritage homes to cozy beachside retreats — adventure,
-                comfort, and culture await.
+    <section class="gradient-bg min-h-screen flex flex-col justify-center items-center text-center text-white px-4">
+        <div class="max-w-4xl">
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+                Discover Your Next <span class="text-[var(--accent-color)]">Adventure</span>
+            </h1>
+            <p class="text-lg md:text-xl max-w-2xl mb-8 text-center mx-auto text-gray-200">
+                Explore unique stays across India — from royal heritage homes to serene beachside retreats. Adventure,
+                comfort, and culture await you.
             </p>
 
-            <div class="w-full max-w-3xl">
-                <img src="/static/b.png" alt="Explore Stays"
-                    class="rounded-2xl shadow-2xl border border-white mb-6 w-full" />
-                <p class="text-sm text-gray-300">Explore heritage havelis, treehouses, beachfront villas and more.</p>
-            </div>
-
-            <div class="flex space-x-4 mt-10">
+            <div class="flex justify-center space-x-6 mt-8">
                 <a href="{{ url_for('signup') }}"
-                    class="px-6 py-3 bg-[var(--accent-color)] text-white rounded-full font-bold hover:scale-105 hover:bg-blue-700 transition transform duration-200">
+                    class="px-8 py-4 bg-[var(--accent-color)] text-white rounded-full font-bold text-lg hover:scale-105 hover:bg-blue-700 transition duration-200 transform shadow-lg btn-hover">
                     Sign Up
                 </a>
                 <a href="{{ url_for('login') }}"
-                    class="px-6 py-3 bg-white text-gray-800 rounded-full font-bold hover:scale-105 hover:bg-gray-100 transition transform duration-200">
+                    class="px-8 py-4 bg-white text-gray-800 rounded-full font-bold text-lg hover:scale-105 hover:bg-gray-100 transition duration-200 transform shadow-lg btn-hover">
                     Login
                 </a>
             </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="text-center py-4 text-gray-300 bg-black/40 backdrop-blur-sm">
-            <p class="text-sm">© 2025 GetAwayBnB. All rights reserved.</p>
-        </footer>
     </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-[var(--secondary-bg)] text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[var(--text-primary)]">Why Choose Us?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div
+                    class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+                        alt="Unique Stays" class="rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-4">Unique Stays</h3>
+                    <p class="text-gray-600">Handpicked properties with a touch of local culture.</p>
+                </div>
+                <div
+                    class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src="https://images.unsplash.com/photo-1510070009289-b5bc34383727?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+                        alt="Easy Booking" class="rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-4">Easy Booking</h3>
+                    <p class="text-gray-600">Effortless booking experience with secure payments.</p>
+                </div>
+                <div
+                    class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src=" data:image/jpeg;base64,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" alt="24/7 Support">                
+                    <h3 class="text-xl font-bold mb-4">24/7 Support</h3>
+                    <p class="text-gray-600">We're here to assist you whenever you need help.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stays Section -->
+    <section class="py-16 bg-white text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[var(--text-primary)]">Explore Our Stays</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div
+                    class="p-6 bg-[var(--secondary-bg)] rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+                        alt="Beachfront Villa" class="rounded-lg mb-4">
+                    <h3 class="text-xl font-bold">Beachfront Villa</h3>
+                    <p class="text-gray-600">Relax by the ocean in a luxury villa.</p>
+                </div>
+                <div
+                    class="p-6 bg-[var(--secondary-bg)] rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+                        alt="Heritage Haveli" class="rounded-lg mb-4">
+                    <h3 class="text-xl font-bold">Heritage Haveli</h3>
+                    <p class="text-gray-600">Step back in time with royal heritage stays.</p>
+                </div>
+                <div
+                    class="p-6 bg-[var(--secondary-bg)] rounded-lg shadow-md hover:shadow-lg transform transition interactive-card">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+                        alt="Treehouse Escape" class="rounded-lg mb-4">
+                    <h3 class="text-xl font-bold">Treehouse Escape</h3>
+                    <p class="text-gray-600">Reconnect with nature in a serene treehouse.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-16 bg-[var(--accent-color)] text-white text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8">Ready to Get Started?</h2>
+            <p class="text-lg mb-6">Join thousands of travelers who trust GetAwayBnB for their adventures.</p>
+            <a href="{{ url_for('signup') }}"
+                class="px-8 py-4 bg-white text-[var(--accent-color)] rounded-full font-bold text-lg hover:scale-105 transition duration-200 transform shadow-lg btn-hover">
+                Sign Up Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-gray-800 text-center text-gray-300">
+        <p class="text-sm">© 2025 GetAwayBnB. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize Vanta.js background
+            VANTA.WAVES({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x0056d2,
+                shininess: 50.00,
+                waveHeight: 20.00,
+                waveSpeed: 1.00,
+                zoom: 1.05
+            });
+
+            // Initialize ScrollReveal animations
+            ScrollReveal().reveal('.interactive-card', {
+                delay: 200,
+                distance: '50px',
+                origin: 'bottom',
+                interval: 100,
+                easing: 'ease-in-out',
+                scale: 0.9
+            });
+        });
+    </script>
 
 </body>
 

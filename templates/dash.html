@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GetAwayBnB - Explore Amazing Stays Across India</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
     <style>
         :root {
             --primary-bg: #ffffff;
@@ -23,9 +24,35 @@
         }
 
         .gradient-bg {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1920/500');
-            background-size: cover;
-            background-position: center;
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        #threejs-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 5;
         }
     </style>
 </head>
@@ -36,9 +63,10 @@
     {% include 'navbar.html' %}
 
     <!-- Hero Section -->
-    <section class="gradient-bg h-[500px] flex items-center justify-center text-center text-white relative">
-        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div class="relative z-10 w-full max-w-4xl">
+    <section class="gradient-bg">
+        <div id="threejs-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content flex flex-col items-center justify-center h-full">
             <h1 class="text-5xl font-extrabold mb-6 leading-tight">Discover Unique Stays Across India</h1>
             <div class="bg-white text-black rounded-full p-4 flex items-center space-x-2 shadow-lg">
                 <input type="text" placeholder="Where are you going?"
@@ -80,27 +108,62 @@
         </div>
     </section>
 
-    <!-- Types of Stays -->
-    <!-- <section class="py-16 bg-[var(--secondary-bg)]">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-10">Types of Stays</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {% for type in [("Heritage Havelis", "Royal mansions"), ("Treehouses", "Nature retreats"), ("Beachfront
-                Villas", "Oceanfront luxury")] %}
-                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
-                    <img src="/api/placeholder/400/300" alt="{{ type[0] }}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold">{{ type[0] }}</h3>
-                        <p class="text-sm text-gray-600 mt-2">{{ type[1] }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section> -->
-
     <!-- Footer -->
     {% include 'footer.html' %}
+
+    <script>
+        // Three.js Background Animation
+        const container = document.getElementById('threejs-background');
+
+        // Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 500, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, 500);
+        container.appendChild(renderer.domElement);
+
+        // Add Particles
+        const particleCount = 200;
+        const particles = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            particlePositions[i * 3] = (Math.random() - 0.5) * 10; // X position
+            particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 10; // Y position
+            particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 10; // Z position
+        }
+
+        particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+        const particleMaterial = new THREE.PointsMaterial({
+            color: 0x0056D2,
+            size: 0.1,
+        });
+
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        scene.add(particleSystem);
+
+        // Camera Position
+        camera.position.z = 5;
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate the particle system for a dynamic effect
+            particleSystem.rotation.y += 0.001;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle Resizing
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, 500);
+            camera.aspect = window.innerWidth / 500;
+            camera.updateProjectionMatrix();
+        });
+    </script>
 
 </body>
 

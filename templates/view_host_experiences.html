@@ -5,42 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Experiences</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="{{ url_for('dashboard') }}" class="text-2xl font-bold text-blue-600">GetAwayBnB</a>
+            <div class="flex space-x-4">
+                {% if not current_user.isHost %}
+                <a href="{{ url_for('become_host') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Become a Host
+                </a>
+                {% endif %}
+                <a href="{{ url_for('view_property') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    View Properties
+                </a>
+                <a href="{{ url_for('explore_properties') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Explore Places
+                </a>
+                {% if current_user.isHost %}
+                <a href="{{ url_for('view_host_experiences') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    My Experiences
+                </a>
+                <a href="{{ url_for('host_experience') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Host an Experience
+                </a>
+                {% endif %}
+                <a href="{{ url_for('explore_experiences') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Explore Experiences
+                </a>
+                <a href="#" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:shadow-md">
+                    Account
+                </a>
+                <a href="{{ url_for('logout') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Page Container -->
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-16">
         <!-- Page Header -->
-        <h1 class="text-3xl font-bold text-center text-blue-600 mb-8">My Hosted Experiences</h1>
+        <header class="text-center py-12 bg-gray-100 pt-8">
+            <h1 class="text-4xl font-extrabold text-gray-800">My Hosted Experiences</h1>
+            <p class="text-lg text-gray-500 mt-2">Manage the experiences you share with travelers.</p>
+        </header>
 
         <!-- Experiences List -->
         <ul class="space-y-6">
             {% for experience in experiences %}
-            <li class="bg-white shadow-md rounded-lg p-6">
+            <li class="bg-white shadow-lg rounded-lg p-6 transition hover:shadow-2xl">
                 <!-- Experience Title -->
-                <h2 class="text-2xl font-semibold text-blue-600">{{ experience.title }}</h2>
+                <h2 class="text-2xl font-bold text-blue-600 mb-2">{{ experience.title }}</h2>
 
                 <!-- Experience Details -->
-                <p class="text-gray-600 mt-2">{{ experience.description }}</p>
-                <p class="text-gray-700 mt-2"><strong>Location:</strong> {{ experience.location }}</p>
-                <p class="text-gray-700 mt-2"><strong>Price:</strong> ${{ experience.price }}</p>
-                <p class="text-gray-700 mt-2"><strong>Participants:</strong> {{ experience.maxParticipants }}</p>
+                <p class="text-gray-600 mb-2">{{ experience.description }}</p>
+                <div class="text-gray-700 space-y-1">
+                    <p><strong>Location:</strong> {{ experience.location }}</p>
+                    <p><strong>Price:</strong> ${{ experience.price }}</p>
+                    <p><strong>Participants:</strong> {{ experience.maxParticipants }}</p>
+                </div>
 
                 <!-- Edit Button -->
                 <a href="{{ url_for('edit_experience', experience_id=experience.experienceID) }}"
-                    class="inline-block mt-4 bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-500 transition">
-                    Edit
+                    class="inline-block mt-4 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 shadow-md transition-transform transform hover:scale-105">
+                    Edit Experience
                 </a>
             </li>
             {% endfor %}
         </ul>
 
         <!-- Add New Experience Button -->
-        <div class="text-center mt-10">
+        <div class="text-center mt-12">
             <a href="{{ url_for('host_experience') }}"
-                class="inline-block bg-green-600 text-white font-medium py-3 px-6 rounded hover:bg-green-500 transition">
-                Host a New Experience
+                class="inline-block bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 shadow-md transition-transform transform hover:scale-105">
+                + Host a New Experience
             </a>
         </div>
     </div>

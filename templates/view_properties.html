@@ -31,7 +31,7 @@
 
     <!-- Page Header -->
     <section class="h-[200px] bg-[var(--secondary-bg)] flex items-center justify-center text-center">
-        <div>
+        <div class="mt-14"> <!-- Added margin-top to this div -->
             <h1 class="text-4xl font-extrabold mb-4">My Properties</h1>
             <p class="text-lg text-gray-600">Manage and view your listed properties below.</p>
         </div>
@@ -52,8 +52,6 @@
                     <p class="text-sm text-gray-600 truncate">{{ property.city }}, {{ property.state }}</p>
                     <p class="text-sm text-gray-600 truncate">₹{{ property.price }} / night</p>
                 </div>
-
-
             </div>
             {% else %}
             <p class="col-span-full text-center text-gray-600">You have not listed any properties yet. <a

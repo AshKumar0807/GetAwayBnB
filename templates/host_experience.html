@@ -4,47 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host Experience</title>
+    <title>Host an Experience</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans">
-    <header class="text-center py-6 bg-blue-600 text-white">
-        <h1 class="text-4xl font-bold">Host an Experience</h1>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="{{ url_for('dashboard') }}" class="text-2xl font-bold text-blue-600">GetAwayBnB</a>
+            <div class="flex space-x-4">
+                {% if not current_user.isHost %}
+                <a href="{{ url_for('become_host') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Become a Host
+                </a>
+                {% endif %}
+                <a href="{{ url_for('view_property') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    View Properties
+                </a>
+                <a href="{{ url_for('explore_properties') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Explore Places
+                </a>
+                {% if current_user.isHost %}
+                <a href="{{ url_for('view_host_experiences') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    My Experiences
+                </a>
+                <a href="{{ url_for('host_experience') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Host an Experience
+                </a>
+                {% endif %}
+                <a href="{{ url_for('explore_experiences') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Explore Experiences
+                </a>
+                <a href="#" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:shadow-md">
+                    Account
+                </a>
+                <a href="{{ url_for('logout') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <header class="text-center py-12 bg-gray-100 pt-20">
+        <h1 class="text-4xl font-extrabold text-gray-800">Host an Experience</h1>
+        <p class="text-lg text-gray-500 mt-2">Share your expertise and create memorable experiences for travelers.</p>
     </header>
 
-    <main class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    <main class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-lg">
         <form method="POST" action="{{ url_for('host_experience') }}" class="space-y-6">
+            <!-- Title -->
             <div>
-                <label for="title" class="block text-gray-700 font-medium mb-2">Title:</label>
+                <label for="title" class="block text-gray-700 font-medium mb-1">Experience Title</label>
                 <input type="text" id="title" name="title" required
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
+
+            <!-- Description -->
             <div>
-                <label for="description" class="block text-gray-700 font-medium mb-2">Description:</label>
-                <textarea id="description" name="description" required
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <label for="description" class="block text-gray-700 font-medium mb-1">Description</label>
+                <textarea id="description" name="description" required rows="4"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-            <div>
-                <label for="price" class="block text-gray-700 font-medium mb-2">Price per Participant:</label>
-                <input type="number" id="price" name="price" step="0.01" required
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <!-- Price and Participants -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="price" class="block text-gray-700 font-medium mb-1">Price per Participant</label>
+                    <input type="number" id="price" name="price" step="0.01" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="maxParticipants" class="block text-gray-700 font-medium mb-1">Maximum Participants</label>
+                    <input type="number" id="maxParticipants" name="maxParticipants" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
             </div>
+
+            <!-- Location -->
             <div>
-                <label for="location" class="block text-gray-700 font-medium mb-2">Location:</label>
+                <label for="location" class="block text-gray-700 font-medium mb-1">Location</label>
                 <input type="text" id="location" name="location" required
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <div>
-                <label for="maxParticipants" class="block text-gray-700 font-medium mb-2">Maximum Participants:</label>
-                <input type="number" id="maxParticipants" name="maxParticipants" required
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
+
+            <!-- Submit Button -->
             <div>
                 <button type="submit"
-                    class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
-                    Submit
+                    class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 transition-transform transform hover:scale-105">
+                    Submit Experience
                 </button>
             </div>
         </form>

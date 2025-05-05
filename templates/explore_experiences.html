@@ -5,25 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Experiences</title>
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800 font-sans">
-    <header class="text-center py-6 bg-blue-600 text-white">
-        <h1 class="text-4xl font-bold">Explore Experiences</h1>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="{{ url_for('dashboard') }}" class="text-2xl font-bold text-blue-600">GetAwayBnB</a>
+            <div class="flex space-x-4">
+                <a href="{{ url_for('view_property') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    View Properties
+                </a>
+                <a href="{{ url_for('explore_properties') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Explore Places
+                </a>
+                <a href="{{ url_for('view_host_experiences') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    My Experiences
+                </a>
+                <a href="{{ url_for('host_experience') }}"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:shadow-md">
+                    Host an Experience
+                </a>
+                <a href="{{ url_for('explore_experiences') }}"
+                    class="px-4 py-2 border border-blue-600 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 hover:shadow-md">
+                    Explore Experiences
+                </a>
+                <a href="#" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:shadow-md">
+                    Account
+                </a>
+                <a href="{{ url_for('logout') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <header class="text-center py-16 bg-gray-100 pt-20">
+        <h1 class="text-4xl font-extrabold text-gray-800">Explore Experiences</h1>
+        <p class="text-lg text-gray-500 mt-2">Discover unique activities and adventures hosted by locals.</p>
     </header>
 
-    <main class="max-w-4xl mx-auto mt-10">
+    <main class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-lg">
         <ul class="space-y-6">
             {% for experience in experiences %}
-            <li class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold text-blue-600 mb-2">{{ experience.title }}</h2>
+            <li class="bg-white p-6 rounded-lg shadow-lg transition hover:shadow-2xl">
+                <h2 class="text-2xl font-bold text-blue-600 mb-2">{{ experience.title }}</h2>
                 <p class="text-gray-600 mb-2">{{ experience.description }}</p>
-                <p class="text-gray-600 mb-2"><strong>Location:</strong> {{ experience.location }}</p>
-                <p class="text-gray-600 mb-4"><strong>Price:</strong> ${{ experience.price }}</p>
+                <div class="text-gray-700 space-y-1">
+                    <p><strong>Location:</strong> {{ experience.location }}</p>
+                    <p><strong>Price:</strong> ${{ experience.price }}</p>
+                </div>
                 <a href="{{ url_for('book_experience', experience_id=experience.experienceID) }}"
-                    class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+                    class="inline-block mt-4 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 shadow-md transition-transform transform hover:scale-105">
                     Book Now
                 </a>
             </li>
