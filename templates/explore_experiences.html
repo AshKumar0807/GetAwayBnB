@@ -60,7 +60,7 @@
                 <p class="text-gray-600 mb-2">{{ experience.description }}</p>
                 <div class="text-gray-700 space-y-1">
                     <p><strong>Location:</strong> {{ experience.location }}</p>
-                    <p><strong>Price:</strong> ${{ experience.price }}</p>
+                    <p><strong>Price:</strong> Rs. {{ experience.price }}</p>
                 </div>
                 <a href="{{ url_for('book_experience', experience_id=experience.experienceID) }}"
                     class="inline-block mt-4 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 shadow-md transition-transform transform hover:scale-105">

@@ -48,9 +48,11 @@
 
                 <!-- Property Details -->
                 <div class="p-4">
-                    <h2 class="text-xl font-bold text-[var(--accent-color)] truncate">{{ property.title }}</h2>
+                    <a href="{{ url_for('property_details', property_id=property.propertyID) }}">
+                        <h2 class="text-xl font-bold text-[var(--accent-color)] truncate">{{ property.title }}</h2>
+                    </a>
                     <p class="text-sm text-gray-600 truncate">{{ property.city }}, {{ property.state }}</p>
-                    <p class="text-sm text-gray-600 truncate">₹{{ property.price }} / night</p>
+                    <p class="text-sm text-gray-600 truncate">Rs {{ property.price }} / night</p>
                 </div>
             </div>
             {% else %}
