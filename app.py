@@ -21,7 +21,7 @@ with app.app_context():
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'  # Redirect to the login page for unauthorized access
+login_manager.login_view = 'login'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -109,15 +109,14 @@ def dashboard():
 
 @app.route('/explore', methods=['GET'])
 def explore_properties():
-    # Get filters from the request
+    #Get filters from the request
     city = request.args.get('city', '')
     state = request.args.get('state', '')
     min_price = request.args.get('min_price', None, type=float)
     max_price = request.args.get('max_price', None, type=float)
     max_guests = request.args.get('max_guests', None, type=int)
 
-    # Build the query
-    query = Property.query.filter_by(isAvailable=True)  # Only fetch properties that are not booked
+    query = Property.query.filter_by(isAvailable=True)  #
     if city:
         query = query.filter(Property.city.ilike(f"%{city}%"))
     if state:
@@ -146,7 +145,7 @@ def property_details(property_id):
         checkout_date_str = request.form.get('checkoutDate')
         total_guests = int(request.form.get('totalGuests', 1))
 
-        # Convert string dates to Python date objects
+        #string dates to Python date objects
         try:
             checkin_date = datetime.strptime(checkin_date_str, '%Y-%m-%d').date()
             checkout_date = datetime.strptime(checkout_date_str, '%Y-%m-%d').date()
@@ -171,16 +170,16 @@ def property_details(property_id):
             flash("The property is not available for the selected dates.", "danger")
             return redirect(url_for('property_details', property_id=property_id))
 
-        # Calculate total price
+        #Calculate total price
         num_nights = (checkout_date - checkin_date).days
         total_price = num_nights * float(property_data.price)
 
-        # Create a new booking with 'pending' status
+        #new booking with 'pending' status
         new_booking = Booking(
             propertyID=property_id,
             guestID=current_user.userID,
-            checkinDate=checkin_date,  # Use Python date object
-            checkoutDate=checkout_date,  # Use Python date object
+            checkinDate=checkin_date,  #Python date object
+            checkoutDate=checkout_date,  # Python date object
             totalPrice=total_price,
             status='pending'
         )
@@ -250,7 +249,6 @@ def become_host():
         flash("Congratulations! You are now a host. Start listing your properties.", "success")
         return redirect(url_for('upload_property'))
 
-    # For GET requests, render the confirmation page
     return render_template('host.html')
 
 
@@ -273,7 +271,7 @@ def upload_property():
             return redirect(request.url)
 
         new_property = Property(
-            hostID=current_user.userID,  # Use current_user.id after authentication
+            hostID=current_user.userID,  #current_user.id after authentication
             title=title,
             description=description,
             address=address,
@@ -400,7 +398,7 @@ def book_experience(experience_id):
 @app.route('/view_host_experiences', methods=['GET'])
 @login_required
 def view_host_experiences():
-    # Ensure the user has host privileges
+    
     if not current_user.isHost:
         current_user.isHost = True
         db.session.commit()
@@ -412,10 +410,10 @@ def view_host_experiences():
 @app.route('/edit_experience/<int:experience_id>', methods=['GET', 'POST'])
 @login_required
 def edit_experience(experience_id):
-    # Use filter_by for the primary key field 'experienceID'
+    #for the primary key field 'experienceID'
     experience = HostExperience.query.filter_by(experienceID=experience_id).first_or_404()
 
-    # Ensure the current user is the host
+    #Ensure the current user is the host
     if experience.hostID != current_user.userID:
         flash("You don't have permission to edit this experience.", "danger")
         return redirect(url_for('view_host_experiences'))
@@ -449,4 +447,5 @@ def edit_experience(experience_id):
 #     )
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Azure sets this
+    app.run(host='0.0.0.0', port=port)
